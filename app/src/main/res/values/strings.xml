@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Wingspan Scores</string>
+    <string name="tab_text_1">INPUT</string>
+    <string name="tab_text_2">LIST</string>
+    <string name="tab_text_3">CHART</string>
+    <string name="multi_player">MULTI-PLAYER</string>
+    <string name="birds">BIRDS</string>
+    <string name="bonus_cards">BONUS CARDS</string>
+    <string name="end_of_round_goals">END-OF-ROUND GOALS</string>
+    <string name="eggs">EGGS</string>
+    <string name="food_on_cards">FOOD ON CARDS</string>
+    <string name="tucked_cards">TUCKED CARDS</string>
+    <string name="total">TOTAL</string>
+    <string name="p1">P1</string>
+    <string name="p2">P2</string>
+    <string name="p3">P3</string>
+    <string name="p4">P4</string>
+    <string name="p5">P5</string>
+    <string name="_0">0</string>
+    <string name="save">SAVE</string>
+    <string name="player_name">PLAYER NAME</string>
+</resources>
