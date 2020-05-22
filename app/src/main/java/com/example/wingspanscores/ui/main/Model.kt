@@ -70,21 +70,23 @@ class Model(val context: Context) {
         val dbHelper = WingspanDbHelper(context)
         val database = dbHelper.readableDatabase
         val cursor = database.rawQuery("""
-            SELECT ps1.name, ps1.game, ps2.win, ps3.max
-            FROM (
-                SELECT p1.name AS name, COUNT(s1.id) AS game FROM players AS p1, scores AS s1
-                WHERE p1.id = s1.player_id
-                GROUP BY p1.name
-            ) AS ps1, (
+            SELECT ps1.name, ps1.game, COALESCE(ps2.win, 0) AS win, ps3.max
+                FROM (
+                    SELECT p1.name AS name, COUNT(s1.id) AS game FROM players AS p1, scores AS s1
+                    WHERE p1.id = s1.player_id
+                    GROUP BY p1.name
+                ) AS ps1, (
+                    SELECT p3.name AS name, MAX(s3.total) AS max FROM players AS p3, scores AS s3
+                    WHERE p3.id = s3.player_id
+                    GROUP BY p3.name
+                ) AS ps3
+            LEFT JOIN (
                 SELECT p2.name AS name, COUNT(s2.id) AS win FROM players AS p2, scores AS s2
                 WHERE p2.id = s2.player_id AND s2.rank = 1
                 GROUP BY p2.name
-            ) AS ps2, (
-                SELECT p3.name AS name, MAX(s3.total) AS max FROM players AS p3, scores AS s3
-                WHERE p3.id = s3.player_id
-                GROUP BY p3.name
-            ) AS ps3
-            WHERE ps1.name = ps2.name AND ps2.name = ps3.name
+            ) AS ps2
+            ON ps1.name = ps2.name
+            WHERE ps1.name = ps3.name
         """.trimIndent(), null)
         if (cursor.count === 0) return arrayOf<ScoreByPlayerDto>()
 
