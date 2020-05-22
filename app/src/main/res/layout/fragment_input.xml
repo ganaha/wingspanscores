@@ -5,549 +5,554 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TableLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:padding="8dp">
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/textView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/player_name"
-                        android:textSize="12sp" />
-
-                    <AutoCompleteTextView
-                        android:id="@+id/editTextP1"
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:autofillHints=""
-                        android:gravity="center"
-                        android:hint="@string/p1"
-                        android:inputType="textPersonName" />
-
-                    <AutoCompleteTextView
-                        android:id="@+id/editTextP2"
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:autofillHints=""
-                        android:gravity="center"
-                        android:hint="@string/p2"
-                        android:inputType="textPersonName" />
-
-                    <AutoCompleteTextView
-                        android:id="@+id/editTextP3"
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:autofillHints=""
-                        android:gravity="center"
-                        android:hint="@string/p3"
-                        android:inputType="textPersonName" />
-
-                    <AutoCompleteTextView
-                        android:id="@+id/editTextP4"
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:autofillHints=""
-                        android:gravity="center"
-                        android:hint="@string/p4"
-                        android:inputType="textPersonName" />
-
-                    <AutoCompleteTextView
-                        android:id="@+id/editTextP5"
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:autofillHints=""
-                        android:gravity="center"
-                        android:hint="@string/p5"
-                        android:inputType="textPersonName" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/textViewBirds"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/birds"
-                        android:textSize="12sp" />
-
-                    <EditText
-                        android:id="@+id/editTextP1Birds"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-
-                    <EditText
-                        android:id="@+id/editTextP2Birds"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-
-                    <EditText
-                        android:id="@+id/editTextP3Birds"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-
-                    <EditText
-                        android:id="@+id/editTextP4Birds"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-
-                    <EditText
-                        android:id="@+id/editTextP5Birds"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/textViewBonus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/bonus_cards"
-                        android:textSize="12sp" />
-
-                    <EditText
-                        android:id="@+id/editTextP1Bonus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-
-                    <EditText
-                        android:id="@+id/editTextP2Bonus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-
-                    <EditText
-                        android:id="@+id/editTextP3Bonus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-
-                    <EditText
-                        android:id="@+id/editTextP4Bonus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-
-                    <EditText
-                        android:id="@+id/editTextP5Bonus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/textViewRound"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/end_of_round_goals"
-                        android:textSize="12sp" />
-
-                    <EditText
-                        android:id="@+id/editTextP1Round"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-
-                    <EditText
-                        android:id="@+id/editTextP2Round"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-
-                    <EditText
-                        android:id="@+id/editTextP3Round"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-
-                    <EditText
-                        android:id="@+id/editTextP4Round"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-
-                    <EditText
-                        android:id="@+id/editTextP5Round"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/textViewEggs"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/eggs"
-                        android:textSize="12sp" />
-
-                    <EditText
-                        android:id="@+id/editTextP1Eggs"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-
-                    <EditText
-                        android:id="@+id/editTextP2Eggs"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-
-                    <EditText
-                        android:id="@+id/editTextP3Eggs"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-
-                    <EditText
-                        android:id="@+id/editTextP4Eggs"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-
-                    <EditText
-                        android:id="@+id/editTextP5Eggs"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/textViewFood"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/food_on_cards"
-                        android:textSize="12sp" />
-
-                    <EditText
-                        android:id="@+id/editTextP1Food"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-
-                    <EditText
-                        android:id="@+id/editTextP2Food"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-
-                    <EditText
-                        android:id="@+id/editTextP3Food"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-
-                    <EditText
-                        android:id="@+id/editTextP4Food"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-
-                    <EditText
-                        android:id="@+id/editTextP5Food"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/textViewTucked"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/tucked_cards"
-                        android:textSize="12sp" />
-
-                    <EditText
-                        android:id="@+id/editTextP1Tucked"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-
-                    <EditText
-                        android:id="@+id/editTextP2Tucked"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-
-                    <EditText
-                        android:id="@+id/editTextP3Tucked"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-
-                    <EditText
-                        android:id="@+id/editTextP4Tucked"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-
-                    <EditText
-                        android:id="@+id/editTextP5Tucked"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:gravity="end"
-                        android:hint="@string/_0"
-                        android:importantForAutofill="no"
-                        android:inputType="number" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/textViewTotal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/total"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/textViewP1Total"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:gravity="end"
-                        android:text="@string/_0"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/textViewP2Total"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:gravity="end"
-                        android:text="@string/_0"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/textViewP3Total"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:gravity="end"
-                        android:text="@string/_0"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/textViewP4Total"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:gravity="end"
-                        android:text="@string/_0"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/textViewP5Total"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:gravity="end"
-                        android:text="@string/_0"
-                        android:textSize="18sp" />
-                </TableRow>
-
-            </TableLayout>
-        </HorizontalScrollView>
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:orientation="horizontal">
+            android:orientation="vertical" >
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/buttonSave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:background="@color/colorPrimary"
-                android:text="@string/save"
-                android:textColor="@android:color/white" />
+                <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:padding="8dp">
 
-            <Space
-                android:layout_width="wrap_content"
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/player_name"
+                            android:textSize="12sp" />
+
+                        <AutoCompleteTextView
+                            android:id="@+id/editTextP1"
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:autofillHints=""
+                            android:gravity="center"
+                            android:hint="@string/p1"
+                            android:inputType="textPersonName" />
+
+                        <AutoCompleteTextView
+                            android:id="@+id/editTextP2"
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:autofillHints=""
+                            android:gravity="center"
+                            android:hint="@string/p2"
+                            android:inputType="textPersonName" />
+
+                        <AutoCompleteTextView
+                            android:id="@+id/editTextP3"
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:autofillHints=""
+                            android:gravity="center"
+                            android:hint="@string/p3"
+                            android:inputType="textPersonName" />
+
+                        <AutoCompleteTextView
+                            android:id="@+id/editTextP4"
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:autofillHints=""
+                            android:gravity="center"
+                            android:hint="@string/p4"
+                            android:inputType="textPersonName" />
+
+                        <AutoCompleteTextView
+                            android:id="@+id/editTextP5"
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:autofillHints=""
+                            android:gravity="center"
+                            android:hint="@string/p5"
+                            android:inputType="textPersonName" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textViewBirds"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/birds"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/editTextP1Birds"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+
+                        <EditText
+                            android:id="@+id/editTextP2Birds"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+
+                        <EditText
+                            android:id="@+id/editTextP3Birds"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+
+                        <EditText
+                            android:id="@+id/editTextP4Birds"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+
+                        <EditText
+                            android:id="@+id/editTextP5Birds"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textViewBonus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/bonus_cards"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/editTextP1Bonus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+
+                        <EditText
+                            android:id="@+id/editTextP2Bonus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+
+                        <EditText
+                            android:id="@+id/editTextP3Bonus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+
+                        <EditText
+                            android:id="@+id/editTextP4Bonus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+
+                        <EditText
+                            android:id="@+id/editTextP5Bonus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textViewRound"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/end_of_round_goals"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/editTextP1Round"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+
+                        <EditText
+                            android:id="@+id/editTextP2Round"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+
+                        <EditText
+                            android:id="@+id/editTextP3Round"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+
+                        <EditText
+                            android:id="@+id/editTextP4Round"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+
+                        <EditText
+                            android:id="@+id/editTextP5Round"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textViewEggs"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/eggs"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/editTextP1Eggs"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+
+                        <EditText
+                            android:id="@+id/editTextP2Eggs"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+
+                        <EditText
+                            android:id="@+id/editTextP3Eggs"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+
+                        <EditText
+                            android:id="@+id/editTextP4Eggs"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+
+                        <EditText
+                            android:id="@+id/editTextP5Eggs"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textViewFood"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/food_on_cards"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/editTextP1Food"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+
+                        <EditText
+                            android:id="@+id/editTextP2Food"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+
+                        <EditText
+                            android:id="@+id/editTextP3Food"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+
+                        <EditText
+                            android:id="@+id/editTextP4Food"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+
+                        <EditText
+                            android:id="@+id/editTextP5Food"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textViewTucked"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/tucked_cards"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/editTextP1Tucked"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+
+                        <EditText
+                            android:id="@+id/editTextP2Tucked"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+
+                        <EditText
+                            android:id="@+id/editTextP3Tucked"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+
+                        <EditText
+                            android:id="@+id/editTextP4Tucked"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+
+                        <EditText
+                            android:id="@+id/editTextP5Tucked"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp"
+                            android:gravity="end"
+                            android:hint="@string/_0"
+                            android:importantForAutofill="no"
+                            android:inputType="number" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textViewTotal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/total"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/textViewP1Total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:gravity="end"
+                            android:text="@string/_0"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/textViewP2Total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:gravity="end"
+                            android:text="@string/_0"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/textViewP3Total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:gravity="end"
+                            android:text="@string/_0"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/textViewP4Total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:gravity="end"
+                            android:text="@string/_0"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/textViewP5Total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:gravity="end"
+                            android:text="@string/_0"
+                            android:textSize="18sp" />
+                    </TableRow>
+
+                </TableLayout>
+            </HorizontalScrollView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:orientation="horizontal">
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/buttonSave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
+                    android:text="@string/save"
+                    android:textColor="@android:color/white" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
         </LinearLayout>
-
-    </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
