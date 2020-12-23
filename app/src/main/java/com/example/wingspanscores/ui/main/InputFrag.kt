@@ -13,8 +13,15 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.example.wingspanscores.R
+import com.example.wingspanscores.ui.main.room.AppDatabase
+import com.example.wingspanscores.ui.main.room.Player
+import com.example.wingspanscores.ui.main.room.Score
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
-class InputFrag: Fragment(), TextWatcher, View.OnClickListener {
+class InputFrag : Fragment(), TextWatcher, View.OnClickListener {
 
     // プレーヤー
     private lateinit var editTextP1: AutoCompleteTextView
@@ -73,11 +80,7 @@ class InputFrag: Fragment(), TextWatcher, View.OnClickListener {
 
     private lateinit var players: Array<String>
 
-    private lateinit var dbHelper: WingspanDbHelper
-
     private lateinit var mView: View
-
-    private lateinit var model: Model
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -91,42 +94,51 @@ class InputFrag: Fragment(), TextWatcher, View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         mView = view
-        dbHelper = WingspanDbHelper(requireContext())
-        model = Model(requireContext())
 
-        // プレーヤー取得
-        players = model.getPlayers()
+        CoroutineScope(Job() + Dispatchers.Main).launch {
 
-        /* プレーヤー先頭表示 */
-        val adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_dropdown_item_1line, players)
-        editTextP1 = view.findViewById<AutoCompleteTextView>(R.id.editTextP1)
-        editTextP1.setAdapter(adapter)
-        editTextP1.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) editTextP1.setSelection(0)
-        }
+            val dao = AppDatabase.getDatabase(requireContext()).appDao()
 
-        editTextP2 = view.findViewById<AutoCompleteTextView>(R.id.editTextP2)
-        editTextP2.setAdapter(adapter)
-        editTextP2.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) editTextP2.setSelection(0)
-        }
+            // プレーヤー取得
+            players = dao.getPlayers().map {
+                it.name
+            }.toTypedArray()
 
-        editTextP3 = view.findViewById<AutoCompleteTextView>(R.id.editTextP3)
-        editTextP3.setAdapter(adapter)
-        editTextP3.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) editTextP3.setSelection(0)
-        }
+            /* プレーヤー先頭表示 */
+            val adapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                players
+            )
+            editTextP1 = view.findViewById(R.id.editTextP1)
+            editTextP1.setAdapter(adapter)
+            editTextP1.setOnFocusChangeListener { _, hasFocus ->
+                if (!hasFocus) editTextP1.setSelection(0)
+            }
 
-        editTextP4 = view.findViewById<AutoCompleteTextView>(R.id.editTextP4)
-        editTextP4.setAdapter(adapter)
-        editTextP4.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) editTextP4.setSelection(0)
-        }
+            editTextP2 = view.findViewById(R.id.editTextP2)
+            editTextP2.setAdapter(adapter)
+            editTextP2.setOnFocusChangeListener { _, hasFocus ->
+                if (!hasFocus) editTextP2.setSelection(0)
+            }
 
-        editTextP5 = view.findViewById<AutoCompleteTextView>(R.id.editTextP5)
-        editTextP5.setAdapter(adapter)
-        editTextP5.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) editTextP5.setSelection(0)
+            editTextP3 = view.findViewById(R.id.editTextP3)
+            editTextP3.setAdapter(adapter)
+            editTextP3.setOnFocusChangeListener { _, hasFocus ->
+                if (!hasFocus) editTextP3.setSelection(0)
+            }
+
+            editTextP4 = view.findViewById(R.id.editTextP4)
+            editTextP4.setAdapter(adapter)
+            editTextP4.setOnFocusChangeListener { _, hasFocus ->
+                if (!hasFocus) editTextP4.setSelection(0)
+            }
+
+            editTextP5 = view.findViewById(R.id.editTextP5)
+            editTextP5.setAdapter(adapter)
+            editTextP5.setOnFocusChangeListener { _, hasFocus ->
+                if (!hasFocus) editTextP5.setSelection(0)
+            }
         }
 
         // P1自動計算
@@ -212,7 +224,7 @@ class InputFrag: Fragment(), TextWatcher, View.OnClickListener {
     /**
      * 計算
      */
-    fun calc() {
+    private fun calc() {
         // P1
         val editTextP1Birds = editTextP1Birds.text.toString().toIntOrNull() ?: 0
         val editTextP1Bonus = editTextP1Bonus.text.toString().toIntOrNull() ?: 0
@@ -281,8 +293,6 @@ class InputFrag: Fragment(), TextWatcher, View.OnClickListener {
      * SAVEボタンの押下処理
      */
     override fun onClick(v: View?) {
-        val database = dbHelper.writableDatabase
-
         val p1 = editTextP1.text.toString()
         val p1Birds = editTextP1Birds.text.toString().toIntOrNull() ?: 0
         val p1Bonus = editTextP1Bonus.text.toString().toIntOrNull() ?: 0
@@ -328,17 +338,19 @@ class InputFrag: Fragment(), TextWatcher, View.OnClickListener {
         val p5Tucked = editTextP5Tucked.text.toString().toIntOrNull() ?: 0
         val p5Total = textViewP5Total.text.toString().toIntOrNull() ?: 0
 
+        // 順位算出
         val p1Rank = getRank(p1Total, p2Total, p3Total, p4Total, p5Total)
         val p2Rank = getRank(p2Total, p1Total, p3Total, p4Total, p5Total)
         val p3Rank = getRank(p3Total, p1Total, p2Total, p4Total, p5Total)
         val p4Rank = getRank(p4Total, p1Total, p2Total, p3Total, p5Total)
         val p5Rank = getRank(p5Total, p1Total, p2Total, p3Total, p4Total)
 
-        model.insertData(p1, p1Birds, p1Bonus, p1Round, p1Eggs, p1Food, p1Tucked, p1Total, p1Rank)
-        model.insertData(p2, p2Birds, p2Bonus, p2Round, p2Eggs, p2Food, p2Tucked, p2Total, p2Rank)
-        model.insertData(p3, p3Birds, p3Bonus, p3Round, p3Eggs, p3Food, p3Tucked, p3Total, p3Rank)
-        model.insertData(p4, p4Birds, p4Bonus, p4Round, p4Eggs, p4Food, p4Tucked, p4Total, p4Rank)
-        model.insertData(p5, p5Birds, p5Bonus, p5Round, p5Eggs, p5Food, p5Tucked, p5Total, p5Rank)
+        // Player & Score登録
+        insertData(p1, p1Birds, p1Bonus, p1Round, p1Eggs, p1Food, p1Tucked, p1Total, p1Rank)
+        insertData(p2, p2Birds, p2Bonus, p2Round, p2Eggs, p2Food, p2Tucked, p2Total, p2Rank)
+        insertData(p3, p3Birds, p3Bonus, p3Round, p3Eggs, p3Food, p3Tucked, p3Total, p3Rank)
+        insertData(p4, p4Birds, p4Bonus, p4Round, p4Eggs, p4Food, p4Tucked, p4Total, p4Rank)
+        insertData(p5, p5Birds, p5Bonus, p5Round, p5Eggs, p5Food, p5Tucked, p5Total, p5Rank)
 
         // Clear
         clear()
@@ -347,19 +359,38 @@ class InputFrag: Fragment(), TextWatcher, View.OnClickListener {
         hideKeyboard(mView)
 
         // 次のタブへ移動
-        requireActivity().findViewById<ViewPager>(R.id.view_pager).setCurrentItem(1)
+        requireActivity().findViewById<ViewPager>(R.id.view_pager).currentItem = 1
+    }
+
+    /**
+     * プレーヤー登録とスコア登録
+     */
+    private fun insertData(
+        name: String,
+        birds: Int,
+        bonus: Int,
+        round: Int,
+        eggs: Int,
+        food: Int,
+        tucked: Int,
+        total: Int,
+        rank: Int
+    ) {
+        if (name.isBlank()) return
+
+        CoroutineScope(Job() + Dispatchers.Main).launch {
+            val dao = AppDatabase.getDatabase(requireContext()).appDao()
+            val player = dao.getPlayerByName(name)
+            val playerId = player.id ?: dao.insertPlayer(Player(null, name))
+            val score = Score(null, playerId, birds, bonus, round, eggs, food, tucked, total, rank)
+            dao.insertScore(score)
+        }
     }
 
     /**
      * 入力内容をクリア
      */
     private fun clear() {
-//        editTextP1.setText("")
-//        editTextP2.setText("")
-//        editTextP3.setText("")
-//        editTextP4.setText("")
-//        editTextP5.setText("")
-
         editTextP1Birds.setText("")
         editTextP2Birds.setText("")
         editTextP3Birds.setText("")
@@ -401,12 +432,12 @@ class InputFrag: Fragment(), TextWatcher, View.OnClickListener {
      * 順位を算出する。
      */
     private fun getRank(myTotal: Int, p2Total: Int, p3Total: Int, p4Total: Int, p5Total: Int): Int {
-        Log.i("RANK1", "${myTotal}, ${p2Total}, ${p3Total}, ${p4Total}, ${p5Total}")
-        val list = listOf<Int>(myTotal, p2Total, p3Total, p4Total, p5Total)
+        Log.i("RANK1", "${myTotal}, ${p2Total}, ${p3Total}, ${p4Total}, $p5Total")
+        val list = listOf(myTotal, p2Total, p3Total, p4Total, p5Total)
         val sorted = list.sortedDescending()
         Log.i("RANK2", "${sorted[0]}, ${sorted[1]}, ${sorted[2]}, ${sorted[3]}, ${sorted[4]}")
         val rank = sorted.indexOf(myTotal) + 1
-        Log.i("RANK3", "${rank}")
+        Log.i("RANK3", "$rank")
         return rank
     }
 
@@ -415,6 +446,6 @@ class InputFrag: Fragment(), TextWatcher, View.OnClickListener {
      */
     private fun hideKeyboard(view: View) {
         val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view!!.getWindowToken(), 0)
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }

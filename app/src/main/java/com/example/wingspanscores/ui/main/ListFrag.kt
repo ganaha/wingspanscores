@@ -2,7 +2,6 @@ package com.example.wingspanscores.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +12,13 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.wingspanscores.ChartActivity
 import com.example.wingspanscores.R
+import com.example.wingspanscores.ui.main.room.AppDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
-class ListFrag: Fragment(), AdapterView.OnItemClickListener {
+class ListFrag : Fragment(), AdapterView.OnItemClickListener {
 
     private lateinit var adapter: SimpleAdapter
     private lateinit var items: List<Map<String, String>>
@@ -25,15 +29,13 @@ class ListFrag: Fragment(), AdapterView.OnItemClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.i("TAG", "onCreateView")
         return inflater.inflate(R.layout.fragment_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.i("TAG", "onViewCreated")
 
-        listView = view.findViewById<ListView>(R.id.listView)
+        listView = view.findViewById(R.id.listView)
         listView.onItemClickListener = this
 
         refresh()
@@ -49,22 +51,28 @@ class ListFrag: Fragment(), AdapterView.OnItemClickListener {
 
     override fun onResume() {
         super.onResume()
-        Log.i("TAG", "onResume")
-
         refresh()
     }
 
-    fun getItems(): List<Map<String, String>> {
-        val model = Model(requireContext())
-        val records = model.getScoresByPlayer()
-        return records.map {
-            mapOf("title" to it.name, "detail" to "plays: ${it.game}, win: ${it.win}, best score: ${it.max}")
-        }
-    }
+    private fun refresh() {
+        CoroutineScope(Job() + Dispatchers.Main).launch {
+            val dao = AppDatabase.getDatabase(requireContext()).appDao()
+            val scores = dao.getPlayersForList()
+            items = scores.map {
+                mapOf(
+                    "title" to it.name,
+                    "detail" to "plays: ${it.game}, win: ${it.win}, best score: ${it.best}"
+                )
+            }
 
-    fun refresh() {
-        items = getItems()
-        adapter = SimpleAdapter(context, items, android.R.layout.simple_list_item_2, arrayOf("title", "detail"), intArrayOf(android.R.id.text1, android.R.id.text2))
-        listView.adapter = adapter
+            adapter = SimpleAdapter(
+                context,
+                items,
+                android.R.layout.simple_list_item_2,
+                arrayOf("title", "detail"),
+                intArrayOf(android.R.id.text1, android.R.id.text2)
+            )
+            listView.adapter = adapter
+        }
     }
 }

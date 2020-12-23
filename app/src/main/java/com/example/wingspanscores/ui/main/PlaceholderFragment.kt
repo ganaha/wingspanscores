@@ -30,7 +30,7 @@ class PlaceholderFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_main, container, false)
         val textView: TextView = root.findViewById(R.id.section_label)
-        pageViewModel.text.observe(viewLifecycleOwner, Observer<String> {
+        pageViewModel.text.observe(viewLifecycleOwner, {
             textView.text = it
         })
         return root
@@ -43,17 +43,5 @@ class PlaceholderFragment : Fragment() {
          */
         private const val ARG_SECTION_NUMBER = "section_number"
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        @JvmStatic
-        fun newInstance(sectionNumber: Int): PlaceholderFragment {
-            return PlaceholderFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_SECTION_NUMBER, sectionNumber)
-                }
-            }
-        }
     }
 }

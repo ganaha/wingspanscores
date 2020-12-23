@@ -1,17 +1,21 @@
 package com.example.wingspanscores
 
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.example.wingspanscores.ui.main.IntegerValueFormatter
+import com.example.wingspanscores.ui.main.room.AppDao
+import com.example.wingspanscores.ui.main.room.AppDatabase
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import com.example.wingspanscores.ui.main.IntegerValueFormatter
-import com.example.wingspanscores.ui.main.Model
-import com.example.wingspanscores.ui.main.ScoresDto
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class ChartActivity : AppCompatActivity() {
 
@@ -20,51 +24,55 @@ class ChartActivity : AppCompatActivity() {
         setContentView(R.layout.activity_chart)
 
         val name = intent.getStringExtra("name")
+        val dao = AppDatabase.getDatabase(this).appDao()
 
-        val model = Model(this)
-        val scores = model.getScores(name)
+        CoroutineScope(Job() + Dispatchers.Main).launch {
+            val scores = name?.let { dao.getScoresByPlayer(it) }
 
-        // 折れ線DataSetsを生成
-        val dataSets = createDataSets(scores)
+            // 折れ線DataSetsを生成
+            val dataSets = scores?.let { createDataSets(it) }
 
-        val lineData = LineData(dataSets)
-        lineData.setValueFormatter(IntegerValueFormatter())
+            val lineData = LineData(dataSets)
+            lineData.setValueFormatter(IntegerValueFormatter())
 
-        val chart = findViewById<LineChart>(R.id.chart).apply {
-            axisLeft.apply {
-                axisMinimum = 0f
-                axisMaximum = 120f
-                labelCount = 13
-                enableGridDashedLine(10f, 10f, 0f)
-                setDrawZeroLine(true)
+            findViewById<LineChart>(R.id.chart).apply {
+                axisLeft.apply {
+                    axisMinimum = 0f
+                    axisMaximum = 120f
+                    labelCount = 13
+                    enableGridDashedLine(10f, 10f, 0f)
+                    setDrawZeroLine(true)
+                }
+                axisRight.apply {
+                    axisMinimum = 0f
+                    axisMaximum = 120f
+                    labelCount = 13
+                    setDrawZeroLine(true)
+                }
+                xAxis.apply {
+                    axisMinimum = 0f
+                    if (scores != null) {
+                        axisMaximum = (scores.size - 1).toFloat()
+                    }
+                    labelCount = 10
+                    position = XAxis.XAxisPosition.BOTTOM
+                    enableGridDashedLine(10f, 10f, 0f)
+                    valueFormatter = IntegerValueFormatter()
+                }
+                description.isEnabled = false
+                isHighlightPerTapEnabled = false
+                isHighlightPerDragEnabled = false
+                data = lineData
+                setVisibleXRangeMaximum(10F)
+                invalidate()
             }
-            axisRight.apply {
-                axisMinimum = 0f
-                axisMaximum = 120f
-                labelCount = 13
-                setDrawZeroLine(true)
-            }
-            xAxis.apply {
-                axisMinimum = 0f
-                axisMaximum = (scores.size - 1).toFloat()
-                labelCount = 10
-                position = XAxis.XAxisPosition.BOTTOM
-                enableGridDashedLine(10f, 10f, 0f)
-                valueFormatter = IntegerValueFormatter()
-            }
-            description.isEnabled = false
-            isHighlightPerTapEnabled = false
-            isHighlightPerDragEnabled = false
-            data = lineData
-            setVisibleXRangeMaximum(10F)
-            invalidate()
         }
     }
 
     /**
      * 折れ線グラフDataSetsを生成する。
      */
-    private fun createDataSets(scores: Array<ScoresDto>): MutableList<ILineDataSet> {
+    private fun createDataSets(scores: List<AppDao.ScoreByPlayer>): MutableList<ILineDataSet> {
         val birdsValues = ArrayList<Entry>()
         val bonusValues = ArrayList<Entry>()
         val roundValues = ArrayList<Entry>()
