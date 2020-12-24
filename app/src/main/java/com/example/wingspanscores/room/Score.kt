@@ -1,4 +1,4 @@
-package com.example.wingspanscores.ui.main.room
+package com.example.wingspanscores.room
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

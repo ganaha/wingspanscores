@@ -1,26 +1,24 @@
-package com.example.wingspanscores.ui.main.room
+package com.example.wingspanscores.room
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AppDao {
+    @Query("select * from players")
+    fun getPlayers(): Flow<List<Player>>
+
+    @Query("select * from players where name = :name limit 1")
+    suspend fun getPlayerByName(name: String): Player?
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertPlayer(player: Player): Long
 
     @Insert
     suspend fun insertScore(score: Score): Long
-
-    @Insert
-    suspend fun insertScores(vararg scores: Score)
-
-    @Query("select * from players")
-    suspend fun getPlayers(): List<Player>
-
-    @Query("select * from players where name = :name limit 1")
-    suspend fun getPlayerByName(name: String): Player
 
     @Query(
         """
@@ -43,16 +41,23 @@ interface AppDao {
             WHERE ps1.name = ps3.name
     """
     )
-    suspend fun getPlayersForList(): List<PlayersForList>
-    data class PlayersForList(val name: String, val game: Int, val win: Int, val best: Int)
+    fun getPlayersForList(): Flow<List<PlayersForList>>
 
     @Query(
         """
-        SELECT p.name as name, s.birds as birds, s.bonus as bonus, s.round as round, s.eggs as eggs, s.food as food, s.tucked as tucked, s.total as total, s.rank as rank
-            FROM players AS p, scores AS s
-            WHERE p.id = s.player_id AND p.name = :name
+        SELECT
+            p.name as name,
+            s.birds as birds,
+            s.bonus as bonus,
+            s.round as round,
+            s.eggs as eggs,
+            s.food as food,
+            s.tucked as tucked,
+            s.total as total,
+            s.rank as rank
+        FROM players AS p, scores AS s
+        WHERE p.id = s.player_id AND p.name = :name
     """
     )
-    suspend fun getScoresByPlayer(name: String): List<ScoreByPlayer>
-    data class ScoreByPlayer(val name: String, val birds: Int, val bonus: Int, val round: Int, val eggs: Int, val food: Int, val tucked: Int, val total: Int, val rank: Int)
+    fun getScoresByPlayer(name: String): Flow<List<ScoreByPlayer>>
 }

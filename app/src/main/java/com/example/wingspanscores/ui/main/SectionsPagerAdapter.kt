@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.wingspanscores.R
+import com.example.wingspanscores.input.InputFrag
+import com.example.wingspanscores.list.ListFrag
 
 private val TAB_TITLES = arrayOf(
     R.string.tab_text_1,

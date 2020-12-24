@@ -1,4 +1,4 @@
-package com.example.wingspanscores.ui.main
+package com.example.wingspanscores.input
 
 import android.content.Context
 import android.os.Bundle
@@ -11,15 +11,10 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.viewpager.widget.ViewPager
+import com.example.wingspanscores.AppApplication
 import com.example.wingspanscores.R
-import com.example.wingspanscores.ui.main.room.AppDatabase
-import com.example.wingspanscores.ui.main.room.Player
-import com.example.wingspanscores.ui.main.room.Score
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
 class InputFrag : Fragment(), TextWatcher, View.OnClickListener {
 
@@ -82,6 +77,10 @@ class InputFrag : Fragment(), TextWatcher, View.OnClickListener {
 
     private lateinit var mView: View
 
+    private val viewModel: InputViewModel by viewModels {
+        InputViewModelFactory((requireContext().applicationContext as AppApplication).repository)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -95,16 +94,10 @@ class InputFrag : Fragment(), TextWatcher, View.OnClickListener {
 
         mView = view
 
-        CoroutineScope(Job() + Dispatchers.Main).launch {
+        viewModel.players.observe(viewLifecycleOwner, { list ->
+            players = list.map { it.name }.toTypedArray()
 
-            val dao = AppDatabase.getDatabase(requireContext()).appDao()
-
-            // プレーヤー取得
-            players = dao.getPlayers().map {
-                it.name
-            }.toTypedArray()
-
-            /* プレーヤー先頭表示 */
+            /* プレーヤー名表示 */
             val adapter = ArrayAdapter(
                 requireContext(),
                 android.R.layout.simple_dropdown_item_1line,
@@ -139,7 +132,7 @@ class InputFrag : Fragment(), TextWatcher, View.OnClickListener {
             editTextP5.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) editTextP5.setSelection(0)
             }
-        }
+        })
 
         // P1自動計算
         editTextP1Birds = view.findViewById(R.id.editTextP1Birds)
@@ -293,7 +286,8 @@ class InputFrag : Fragment(), TextWatcher, View.OnClickListener {
      * SAVEボタンの押下処理
      */
     override fun onClick(v: View?) {
-        val p1 = editTextP1.text.toString()
+        val p1Name = editTextP1.text.toString()
+        val p1PlayerId = viewModel.getPlayerId(p1Name)
         val p1Birds = editTextP1Birds.text.toString().toIntOrNull() ?: 0
         val p1Bonus = editTextP1Bonus.text.toString().toIntOrNull() ?: 0
         val p1Round = editTextP1Round.text.toString().toIntOrNull() ?: 0
@@ -302,7 +296,8 @@ class InputFrag : Fragment(), TextWatcher, View.OnClickListener {
         val p1Tucked = editTextP1Tucked.text.toString().toIntOrNull() ?: 0
         val p1Total = textViewP1Total.text.toString().toIntOrNull() ?: 0
 
-        val p2 = editTextP2.text.toString()
+        val p2Name = editTextP2.text.toString()
+        val p2PlayerId = viewModel.getPlayerId(p2Name)
         val p2Birds = editTextP2Birds.text.toString().toIntOrNull() ?: 0
         val p2Bonus = editTextP2Bonus.text.toString().toIntOrNull() ?: 0
         val p2Round = editTextP2Round.text.toString().toIntOrNull() ?: 0
@@ -311,7 +306,8 @@ class InputFrag : Fragment(), TextWatcher, View.OnClickListener {
         val p2Tucked = editTextP2Tucked.text.toString().toIntOrNull() ?: 0
         val p2Total = textViewP2Total.text.toString().toIntOrNull() ?: 0
 
-        val p3 = editTextP3.text.toString()
+        val p3Name = editTextP3.text.toString()
+        val p3PlayerId = viewModel.getPlayerId(p3Name)
         val p3Birds = editTextP3Birds.text.toString().toIntOrNull() ?: 0
         val p3Bonus = editTextP3Bonus.text.toString().toIntOrNull() ?: 0
         val p3Round = editTextP3Round.text.toString().toIntOrNull() ?: 0
@@ -320,7 +316,8 @@ class InputFrag : Fragment(), TextWatcher, View.OnClickListener {
         val p3Tucked = editTextP3Tucked.text.toString().toIntOrNull() ?: 0
         val p3Total = textViewP3Total.text.toString().toIntOrNull() ?: 0
 
-        val p4 = editTextP4.text.toString()
+        val p4Name = editTextP4.text.toString()
+        val p4PlayerId = viewModel.getPlayerId(p4Name)
         val p4Birds = editTextP4Birds.text.toString().toIntOrNull() ?: 0
         val p4Bonus = editTextP4Bonus.text.toString().toIntOrNull() ?: 0
         val p4Round = editTextP4Round.text.toString().toIntOrNull() ?: 0
@@ -329,7 +326,8 @@ class InputFrag : Fragment(), TextWatcher, View.OnClickListener {
         val p4Tucked = editTextP4Tucked.text.toString().toIntOrNull() ?: 0
         val p4Total = textViewP4Total.text.toString().toIntOrNull() ?: 0
 
-        val p5 = editTextP5.text.toString()
+        val p5Name = editTextP5.text.toString()
+        val p5PlayerId = viewModel.getPlayerId(p5Name)
         val p5Birds = editTextP5Birds.text.toString().toIntOrNull() ?: 0
         val p5Bonus = editTextP5Bonus.text.toString().toIntOrNull() ?: 0
         val p5Round = editTextP5Round.text.toString().toIntOrNull() ?: 0
@@ -345,12 +343,12 @@ class InputFrag : Fragment(), TextWatcher, View.OnClickListener {
         val p4Rank = getRank(p4Total, p1Total, p2Total, p3Total, p5Total)
         val p5Rank = getRank(p5Total, p1Total, p2Total, p3Total, p4Total)
 
-        // Player & Score登録
-        insertData(p1, p1Birds, p1Bonus, p1Round, p1Eggs, p1Food, p1Tucked, p1Total, p1Rank)
-        insertData(p2, p2Birds, p2Bonus, p2Round, p2Eggs, p2Food, p2Tucked, p2Total, p2Rank)
-        insertData(p3, p3Birds, p3Bonus, p3Round, p3Eggs, p3Food, p3Tucked, p3Total, p3Rank)
-        insertData(p4, p4Birds, p4Bonus, p4Round, p4Eggs, p4Food, p4Tucked, p4Total, p4Rank)
-        insertData(p5, p5Birds, p5Bonus, p5Round, p5Eggs, p5Food, p5Tucked, p5Total, p5Rank)
+        // Score登録
+        viewModel.insertScore(p1PlayerId, p1Birds, p1Bonus, p1Round, p1Eggs, p1Food, p1Tucked, p1Total, p1Rank)
+        viewModel.insertScore(p2PlayerId, p2Birds, p2Bonus, p2Round, p2Eggs, p2Food, p2Tucked, p2Total, p2Rank)
+        viewModel.insertScore(p3PlayerId, p3Birds, p3Bonus, p3Round, p3Eggs, p3Food, p3Tucked, p3Total, p3Rank)
+        viewModel.insertScore(p4PlayerId, p4Birds, p4Bonus, p4Round, p4Eggs, p4Food, p4Tucked, p4Total, p4Rank)
+        viewModel.insertScore(p5PlayerId, p5Birds, p5Bonus, p5Round, p5Eggs, p5Food, p5Tucked, p5Total, p5Rank)
 
         // Clear
         clear()
@@ -360,31 +358,6 @@ class InputFrag : Fragment(), TextWatcher, View.OnClickListener {
 
         // 次のタブへ移動
         requireActivity().findViewById<ViewPager>(R.id.view_pager).currentItem = 1
-    }
-
-    /**
-     * プレーヤー登録とスコア登録
-     */
-    private fun insertData(
-        name: String,
-        birds: Int,
-        bonus: Int,
-        round: Int,
-        eggs: Int,
-        food: Int,
-        tucked: Int,
-        total: Int,
-        rank: Int
-    ) {
-        if (name.isBlank()) return
-
-        CoroutineScope(Job() + Dispatchers.Main).launch {
-            val dao = AppDatabase.getDatabase(requireContext()).appDao()
-            val player = dao.getPlayerByName(name)
-            val playerId = player.id ?: dao.insertPlayer(Player(null, name))
-            val score = Score(null, playerId, birds, bonus, round, eggs, food, tucked, total, rank)
-            dao.insertScore(score)
-        }
     }
 
     /**
@@ -432,12 +405,12 @@ class InputFrag : Fragment(), TextWatcher, View.OnClickListener {
      * 順位を算出する。
      */
     private fun getRank(myTotal: Int, p2Total: Int, p3Total: Int, p4Total: Int, p5Total: Int): Int {
-        Log.i("RANK1", "${myTotal}, ${p2Total}, ${p3Total}, ${p4Total}, $p5Total")
+        Log.i("RANK_1", "${myTotal}, ${p2Total}, ${p3Total}, ${p4Total}, $p5Total")
         val list = listOf(myTotal, p2Total, p3Total, p4Total, p5Total)
         val sorted = list.sortedDescending()
-        Log.i("RANK2", "${sorted[0]}, ${sorted[1]}, ${sorted[2]}, ${sorted[3]}, ${sorted[4]}")
+        Log.i("RANK_2", "${sorted[0]}, ${sorted[1]}, ${sorted[2]}, ${sorted[3]}, ${sorted[4]}")
         val rank = sorted.indexOf(myTotal) + 1
-        Log.i("RANK3", "$rank")
+        Log.i("RANK_3", "$rank")
         return rank
     }
 

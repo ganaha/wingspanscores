@@ -1,4 +1,4 @@
-package com.example.wingspanscores.ui.main
+package com.example.wingspanscores.list
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,19 +10,20 @@ import android.widget.ListView
 import android.widget.SimpleAdapter
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.example.wingspanscores.ChartActivity
+import androidx.fragment.app.viewModels
+import com.example.wingspanscores.AppApplication
+import com.example.wingspanscores.chart.ChartActivity
 import com.example.wingspanscores.R
-import com.example.wingspanscores.ui.main.room.AppDatabase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
 class ListFrag : Fragment(), AdapterView.OnItemClickListener {
 
     private lateinit var adapter: SimpleAdapter
     private lateinit var items: List<Map<String, String>>
     private lateinit var listView: ListView
+
+    private val viewModel: ListViewModel by viewModels {
+        ListViewModelFactory((requireContext().applicationContext as AppApplication).repository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,22 +50,19 @@ class ListFrag : Fragment(), AdapterView.OnItemClickListener {
         startActivity(intent)
     }
 
-    override fun onResume() {
-        super.onResume()
-        refresh()
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        refresh()
+//    }
 
     private fun refresh() {
-        CoroutineScope(Job() + Dispatchers.Main).launch {
-            val dao = AppDatabase.getDatabase(requireContext()).appDao()
-            val scores = dao.getPlayersForList()
-            items = scores.map {
+        viewModel.players.observe(viewLifecycleOwner, {
+            items = it.map { player ->
                 mapOf(
-                    "title" to it.name,
-                    "detail" to "plays: ${it.game}, win: ${it.win}, best score: ${it.best}"
+                    "title" to player.name,
+                    "detail" to "play: ${player.game}, win: ${player.win}, best: ${player.best}"
                 )
             }
-
             adapter = SimpleAdapter(
                 context,
                 items,
@@ -73,6 +71,6 @@ class ListFrag : Fragment(), AdapterView.OnItemClickListener {
                 intArrayOf(android.R.id.text1, android.R.id.text2)
             )
             listView.adapter = adapter
-        }
+        })
     }
 }

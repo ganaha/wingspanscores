@@ -1,36 +1,35 @@
-package com.example.wingspanscores
+package com.example.wingspanscores.chart
 
 import android.graphics.Color
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.example.wingspanscores.AppApplication
+import com.example.wingspanscores.R
+import com.example.wingspanscores.room.ScoreByPlayer
 import com.example.wingspanscores.ui.main.IntegerValueFormatter
-import com.example.wingspanscores.ui.main.room.AppDao
-import com.example.wingspanscores.ui.main.room.AppDatabase
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
 class ChartActivity : AppCompatActivity() {
+
+    private val viewModel: ChartViewModel by viewModels {
+        ChartViewModelFactory((application as AppApplication).repository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chart)
 
-        val name = intent.getStringExtra("name")
-        val dao = AppDatabase.getDatabase(this).appDao()
+        val name = intent.getStringExtra("name")!!
 
-        CoroutineScope(Job() + Dispatchers.Main).launch {
-            val scores = name?.let { dao.getScoresByPlayer(it) }
-
+        viewModel.getScoresByPlayer(name).observe(this, {
             // 折れ線DataSetsを生成
-            val dataSets = scores?.let { createDataSets(it) }
+            val dataSets = createDataSets(it)
 
             val lineData = LineData(dataSets)
             lineData.setValueFormatter(IntegerValueFormatter())
@@ -51,8 +50,8 @@ class ChartActivity : AppCompatActivity() {
                 }
                 xAxis.apply {
                     axisMinimum = 0f
-                    if (scores != null) {
-                        axisMaximum = (scores.size - 1).toFloat()
+                    if (it != null) {
+                        axisMaximum = (it.size - 1).toFloat()
                     }
                     labelCount = 10
                     position = XAxis.XAxisPosition.BOTTOM
@@ -66,13 +65,13 @@ class ChartActivity : AppCompatActivity() {
                 setVisibleXRangeMaximum(10F)
                 invalidate()
             }
-        }
+        })
     }
 
     /**
      * 折れ線グラフDataSetsを生成する。
      */
-    private fun createDataSets(scores: List<AppDao.ScoreByPlayer>): MutableList<ILineDataSet> {
+    private fun createDataSets(scores: List<ScoreByPlayer>): MutableList<ILineDataSet> {
         val birdsValues = ArrayList<Entry>()
         val bonusValues = ArrayList<Entry>()
         val roundValues = ArrayList<Entry>()
