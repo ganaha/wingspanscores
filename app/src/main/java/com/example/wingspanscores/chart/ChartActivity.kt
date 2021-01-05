@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.wingspanscores.AppApplication
-import com.example.wingspanscores.R
+import com.example.wingspanscores.databinding.ActivityChartBinding
 import com.example.wingspanscores.room.ScoreByPlayer
 import com.example.wingspanscores.ui.main.IntegerValueFormatter
 import com.github.mikephil.charting.charts.LineChart
@@ -21,9 +21,12 @@ class ChartActivity : AppCompatActivity() {
         ChartViewModelFactory((application as AppApplication).repository)
     }
 
+    private lateinit var binding: ActivityChartBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_chart)
+        binding = ActivityChartBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val name = intent.getStringExtra("name")!!
 
@@ -31,41 +34,48 @@ class ChartActivity : AppCompatActivity() {
             // 折れ線DataSetsを生成
             val dataSets = createDataSets(it)
 
+            // LineData設定
             val lineData = LineData(dataSets)
             lineData.setValueFormatter(IntegerValueFormatter())
 
-            findViewById<LineChart>(R.id.chart).apply {
-                axisLeft.apply {
-                    axisMinimum = 0f
-                    axisMaximum = 120f
-                    labelCount = 13
-                    enableGridDashedLine(10f, 10f, 0f)
-                    setDrawZeroLine(true)
-                }
-                axisRight.apply {
-                    axisMinimum = 0f
-                    axisMaximum = 120f
-                    labelCount = 13
-                    setDrawZeroLine(true)
-                }
-                xAxis.apply {
-                    axisMinimum = 0f
-                    if (it != null) {
-                        axisMaximum = (it.size - 1).toFloat()
-                    }
-                    labelCount = 10
-                    position = XAxis.XAxisPosition.BOTTOM
-                    enableGridDashedLine(10f, 10f, 0f)
-                    valueFormatter = IntegerValueFormatter()
-                }
-                description.isEnabled = false
-                isHighlightPerTapEnabled = false
-                isHighlightPerDragEnabled = false
-                data = lineData
-                setVisibleXRangeMaximum(10F)
-                invalidate()
-            }
+            // Chart設定
+            settingChart(binding.chart, lineData, it)
         })
+    }
+
+    /**
+     * Chart設定
+     */
+    private fun settingChart(chart: LineChart, lineData: LineData, list: List<ScoreByPlayer>) {
+        chart.apply {
+            axisLeft.apply {
+                axisMinimum = 0f
+                axisMaximum = 120f
+                labelCount = 13
+                enableGridDashedLine(10f, 10f, 0f)
+                setDrawZeroLine(true)
+            }
+            axisRight.apply {
+                axisMinimum = 0f
+                axisMaximum = 120f
+                labelCount = 13
+                setDrawZeroLine(true)
+            }
+            xAxis.apply {
+                axisMinimum = 0f
+                axisMaximum = (list.size - 1).toFloat()
+                labelCount = 10
+                position = XAxis.XAxisPosition.BOTTOM
+                enableGridDashedLine(10f, 10f, 0f)
+                valueFormatter = IntegerValueFormatter()
+            }
+            description.isEnabled = false
+            isHighlightPerTapEnabled = false
+            isHighlightPerDragEnabled = false
+            data = lineData
+            setVisibleXRangeMaximum(10F)
+            invalidate()
+        }
     }
 
     /**
@@ -112,15 +122,14 @@ class ChartActivity : AppCompatActivity() {
             color = Color.RED
         }
 
-        val dataSets = mutableListOf<ILineDataSet>()
-        dataSets.add(birdsDataSet)
-        dataSets.add(bonusDataSet)
-        dataSets.add(roundDataSet)
-        dataSets.add(eggsDataSet)
-        dataSets.add(foodDataSet)
-        dataSets.add(tuckedDataSet)
-        dataSets.add(totalDataSet)
-
-        return dataSets
+        return mutableListOf<ILineDataSet>().apply {
+            add(birdsDataSet)
+            add(bonusDataSet)
+            add(roundDataSet)
+            add(eggsDataSet)
+            add(foodDataSet)
+            add(tuckedDataSet)
+            add(totalDataSet)
+        }
     }
 }

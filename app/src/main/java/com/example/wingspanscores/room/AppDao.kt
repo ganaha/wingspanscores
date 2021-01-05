@@ -1,9 +1,6 @@
 package com.example.wingspanscores.room
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -60,4 +57,11 @@ interface AppDao {
     """
     )
     fun getScoresByPlayer(name: String): Flow<List<ScoreByPlayer>>
+
+    @Insert
+    suspend fun insertHistory(history: History): Long
+
+    @Transaction
+    @Query("SELECT * FROM histories ORDER BY id DESC")
+    fun getHistories(): Flow<List<HistoryWithScores>>
 }

@@ -2,6 +2,9 @@
   <dictionary name="t.ganaha">
     <words>
       <w>automa</w>
+      <w>databinding</w>
+      <w>viewmodel</w>
+      <w>wingspanscores</w>
     </words>
   </dictionary>
 </component>

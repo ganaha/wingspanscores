@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">Wingspan Scores</string>
     <string name="tab_text_1">INPUT</string>
-    <string name="tab_text_2">LIST</string>
+    <string name="tab_text_2">PLAYER</string>
     <string name="tab_text_3">CHART</string>
+    <string name="tab_text_4">HISTORY</string>
     <string name="multi_player">MULTI-PLAYER</string>
     <string name="birds">BIRDS</string>
     <string name="bonus_cards">BONUS CARDS</string>
@@ -19,4 +20,6 @@
     <string name="_0">0</string>
     <string name="save">SAVE</string>
     <string name="player_name">PLAYER NAME</string>
+    <string name="rank_suffix">.</string>
+    <string name="point">p</string>
 </resources>

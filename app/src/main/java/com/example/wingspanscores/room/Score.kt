@@ -15,5 +15,6 @@ data class Score(
     @ColumnInfo val food: Int,
     @ColumnInfo val tucked: Int,
     @ColumnInfo val total: Int,
-    @ColumnInfo val rank: Int
+    @ColumnInfo val rank: Int,
+    @ColumnInfo(name = "history_id") val historyId: Long?
 )

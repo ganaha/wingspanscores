@@ -3,6 +3,7 @@ package com.example.wingspanscores
 import androidx.annotation.WorkerThread
 import com.example.wingspanscores.room.*
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class AppRepository(private val dao: AppDao) {
     val players: Flow<List<Player>> = dao.getPlayers()
@@ -27,5 +28,18 @@ class AppRepository(private val dao: AppDao) {
 
     fun getScoresByPlayer(name: String): Flow<List<ScoreByPlayer>> {
         return dao.getScoresByPlayer(name)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun insertHistory(history: History): Long {
+        return dao.insertHistory(history)
+    }
+
+    val histories: Flow<List<HistoryWithScores>> = dao.getHistories().map { histories ->
+        histories.map { history ->
+            history.scores = history.scores.sortedBy { it.score.rank }
+            history
+        }
     }
 }
