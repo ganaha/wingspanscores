@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.example.wingspanscores.AppApplication
 import com.example.wingspanscores.R
 import com.example.wingspanscores.databinding.FragmentInputBinding
@@ -84,7 +84,7 @@ class InputFrag : Fragment(), View.OnClickListener {
         v?.let { hideKeyboard(it) }
 
         // 次のタブへ移動
-        requireActivity().findViewById<ViewPager>(R.id.view_pager).currentItem = 1
+        requireActivity().findViewById<ViewPager2>(R.id.view_pager).currentItem = 1
     }
 
     /**
