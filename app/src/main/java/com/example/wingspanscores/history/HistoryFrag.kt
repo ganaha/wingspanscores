@@ -1,7 +1,6 @@
 package com.example.wingspanscores.history
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,13 +20,15 @@ class HistoryFrag : Fragment() {
         HistoryViewModelFactory((requireContext().applicationContext as AppApplication).repository)
     }
 
-    private lateinit var binding: FragmentHistoryListBinding
+    private var _binding: FragmentHistoryListBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentHistoryListBinding.inflate(inflater, container, false).apply {
+        _binding = FragmentHistoryListBinding.inflate(inflater, container, false)
+        binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewmodel = viewModel
             recyclerView.apply {
@@ -45,6 +46,11 @@ class HistoryFrag : Fragment() {
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -53,8 +59,7 @@ class HistoryFrag : Fragment() {
 
     private fun refresh() {
         viewModel.histories.observe(viewLifecycleOwner, {
-            Log.d("TAG", "viewModel.histories.observe: ${it.size}")
-            binding.executePendingBindings()
+            (binding.recyclerView.adapter as HistoryItemRecyclerViewAdapter).submitList(it)
         })
     }
 }

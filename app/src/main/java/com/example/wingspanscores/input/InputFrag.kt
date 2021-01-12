@@ -10,9 +10,8 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.viewpager2.widget.ViewPager2
 import com.example.wingspanscores.AppApplication
-import com.example.wingspanscores.R
+import com.example.wingspanscores.MainActivity
 import com.example.wingspanscores.databinding.FragmentInputBinding
 
 class InputFrag : Fragment(), View.OnClickListener {
@@ -21,17 +20,23 @@ class InputFrag : Fragment(), View.OnClickListener {
         InputViewModelFactory((requireContext().applicationContext as AppApplication).repository)
     }
 
-    private lateinit var binding: FragmentInputBinding
+    private var _binding: FragmentInputBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentInputBinding.inflate(inflater, container, false)
+        _binding = FragmentInputBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewmodel = viewModel
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -84,7 +89,7 @@ class InputFrag : Fragment(), View.OnClickListener {
         v?.let { hideKeyboard(it) }
 
         // 次のタブへ移動
-        requireActivity().findViewById<ViewPager2>(R.id.view_pager).currentItem = 1
+        (requireActivity() as MainActivity).toPlayerFrag()
     }
 
     /**

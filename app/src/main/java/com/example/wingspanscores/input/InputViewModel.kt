@@ -65,6 +65,8 @@ class InputViewModel(private val repository: AppRepository) : ViewModel() {
      * Score一括登録
      */
     fun insertScores() {
+        if (p1Score.name.value?.isEmpty() == true) return
+
         val historyId = getHistoryId()
 
         // P1

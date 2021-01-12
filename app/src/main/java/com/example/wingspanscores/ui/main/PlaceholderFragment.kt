@@ -4,10 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.wingspanscores.R
+import com.example.wingspanscores.databinding.FragmentMainBinding
 
 /**
  * A placeholder fragment containing a simple view.
@@ -15,6 +14,9 @@ import com.example.wingspanscores.R
 class PlaceholderFragment : Fragment() {
 
     private val pageViewModel: PageViewModel by viewModels()
+
+    private var _binding: FragmentMainBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,13 +28,12 @@ class PlaceholderFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val root = inflater.inflate(R.layout.fragment_main, container, false)
-        val textView: TextView = root.findViewById(R.id.section_label)
+    ): View {
+        _binding = FragmentMainBinding.inflate(inflater, container, false)
         pageViewModel.text.observe(viewLifecycleOwner, {
-            textView.text = it
+            binding.sectionLabel.text = it
         })
-        return root
+        return binding.root
     }
 
     companion object {
